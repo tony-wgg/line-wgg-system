@@ -1,50 +1,53 @@
 const express = require("express");
-const axios = require("axios");
+const bodyParser = require("body-parser");
 const app = express();
+const port = process.env.PORT || 10000;
+const axios = require("axios");
 
-app.use(express.json());
+// LINE Access Token
+const LINE_ACCESS_TOKEN = "ใส่โทเคนจาก LINE Developers ตรงนี้";
 
-const LINE_ACCESS_TOKEN = "GwBUKRRAJqn734sJr06r18Prp6cOBSYXrwBakO9NLXplhuos+AdcfKnS5hbiQty8aUWemVp81j/FIVzmWWsvPXF0nSMrv0iIkC45FBgnPSrHfKtTgPC7IML1qMVgktysrzhTjCvboTTZjahqN93XrAdB04t89/1O/w1cDnyilFU="; // 👈 สำคัญมาก
+app.use(bodyParser.json());
 
 app.post("/webhook", async (req, res) => {
   try {
     const events = req.body.events;
-    for (let event of events) {
+    for (const event of events) {
       if (event.type === "message" && event.message.type === "text") {
         const replyToken = event.replyToken;
         const userMessage = event.message.text;
 
-        // สร้างข้อความตอบกลับ
-        const replyMessage = {
-          replyToken: replyToken,
-          messages: [
-            {
-              type: "text",
-              text: `คุณพิมพ์ว่า: ${userMessage}`,
-            },
-          ],
-        };
-
-        // ส่งข้อความกลับไปที่ LINE
-        await axios.post("https://api.line.me/v2/bot/message/reply", replyMessage, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${LINE_ACCESS_TOKEN}`,
+        await axios.post(
+          "https://api.line.me/v2/bot/message/reply",
+          {
+            replyToken: replyToken,
+            messages: [
+              {
+                type: "text",
+                text: `คุณพิมพ์ว่า: ${userMessage}`,
+              },
+            ],
           },
-        });
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${LINE_ACCESS_TOKEN}`,
+            },
+          }
+        );
       }
     }
-
     res.sendStatus(200);
   } catch (error) {
-    console.error("Error:", error);
+    console.error(error);
     res.sendStatus(500);
   }
 });
 
 app.get("/", (req, res) => {
-  res.send("LINE Webhook is active!");
+  res.send("Line bot is running 🚀");
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
