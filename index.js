@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 10000;
 
 // LINE Access Token (ใส่ของคุณตรงนี้)
-const LINE_ACCESS_TOKEN = "ใส่ Channel access token ของคุณที่เห็นในหน้า LINE Developers";
+const LINE_ACCESS_TOKEN = "ใส่ access token จาก LINE Developers ตรงนี้";
 
 app.use(bodyParser.json());
 
