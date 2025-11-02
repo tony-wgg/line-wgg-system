@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.json());
 
-const LINE_ACCESS_TOKEN = "ใส่ Channel access token ตรงนี้"; // 👈 สำคัญมาก
+const LINE_ACCESS_TOKEN = "GwBUKRRAJqn734sJr06r18Prp6cOBSYXrwBakO9NLXplhuos+AdcfKnS5hbiQty8aUWemVp81j/FIVzmWWsvPXF0nSMrv0iIkC45FBgnPSrHfKtTgPC7IML1qMVgktysrzhTjCvboTTZjahqN93XrAdB04t89/1O/w1cDnyilFU="; // 👈 สำคัญมาก
 
 app.post("/webhook", async (req, res) => {
   try {
