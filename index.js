@@ -1,11 +1,12 @@
 const express = require("express");
+const axios = require("axios");
 const bodyParser = require("body-parser");
+
 const app = express();
 const port = process.env.PORT || 10000;
-const axios = require("axios");
 
-// LINE Access Token
-const LINE_ACCESS_TOKEN = "ใส่โทเคนจาก LINE Developers ตรงนี้";
+// LINE Access Token (ใส่ของคุณตรงนี้)
+const LINE_ACCESS_TOKEN = "ใส่ Channel access token ของคุณที่เห็นในหน้า LINE Developers";
 
 app.use(bodyParser.json());
 
@@ -37,15 +38,16 @@ app.post("/webhook", async (req, res) => {
         );
       }
     }
-    res.sendStatus(200);
+
+    res.status(200).send("OK");
   } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
   }
 });
 
 app.get("/", (req, res) => {
-  res.send("Line bot is running 🚀");
+  res.send("LINE Bot is running!");
 });
 
 app.listen(port, () => {
